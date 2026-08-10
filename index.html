@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Minha Loja</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --primary: #6c4cff;
+      --primary-dark: #5135d8;
+      --background: #f7f7fb;
+      --card: #ffffff;
+      --text: #171717;
+      --muted: #777;
+      --border: #e8e8ee;
+      --success: #19a463;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: var(--background);
+      color: var(--text);
+    }
+
+    /* HEADER */
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(255,255,255,.94);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .header-content {
+      max-width: 1200px;
+      margin: auto;
+      padding: 18px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .logo {
+      font-size: 24px;
+      font-weight: 800;
+      color: var(--primary);
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    .search {
+      width: 100%;
+      max-width: 420px;
+      position: relative;
+    }
+
+    .search input {
+      width: 100%;
+      padding: 13px 18px;
+      border: 1px solid var(--border);
+      border-radius: 30px;
+      outline: none;
+      font-size: 15px;
+      background: #fafafa;
+    }
+
+    .search input:focus {
+      border-color: var(--primary);
+      background: white;
+    }
+
+    /* HERO */
+
+    .hero {
+      max-width: 1200px;
+      margin: 35px auto 20px;
+      padding: 55px 30px;
+      border-radius: 25px;
+      background:
+        linear-gradient(135deg, rgba(108,76,255,.96), rgba(126,72,230,.90)),
+        url("https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=1600&q=80");
+      background-size: cover;
+      background-position: center;
+      color: white;
+    }
+
+    .hero h1 {
+      font-size: clamp(32px, 5vw, 58px);
+      max-width: 650px;
+      line-height: 1.05;
+      margin-bottom: 18px;
+    }
+
+    .hero p {
+      max-width: 600px;
+      font-size: 18px;
+      line-height: 1.6;
+      opacity: .92;
+    }
+
+    /* CATEGORIAS */
+
+    .categories {
+      max-width: 1200px;
+      margin: 25px auto;
+      padding: 0 20px;
+      display: flex;
+      gap: 10px;
+      overflow-x: auto;
+    }
+
+    .category {
+      border: 1px solid var(--border);
+      background: white;
+      padding: 10px 18px;
+      border-radius: 30px;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: .2s;
+    }
+
+    .category:hover,
+    .category.active {
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary);
+    }
+
+    /* PRODUTOS */
+
+    .products-container {
+      max-width: 1200px;
+      margin: 30px auto 80px;
+      padding: 0 20px;
+    }
+
+    .section-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 22px;
+    }
+
+    .section-title h2 {
+      font-size: 28px;
+    }
+
+    .products-count {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .products {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 22px;
+    }
+
+    .product {
+      background: var(--card);
+      border-radius: 18px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      transition: transform .2s, box-shadow .2s;
+    }
+
+    .product:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 35px rgba(0,0,0,.08);
+    }
+
+    .product-image {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      object-fit: cover;
+      display: block;
+      background: #eee;
+    }
+
+    .product-info {
+      padding: 18px;
+    }
+
+    .product-category {
+      color: var(--primary);
+      font-size: 12px;
+      font-weight: bold;
+      text-transform: uppercase;
+      margin-bottom: 7px;
+    }
+
+    .product h3 {
+      font-size: 18px;
+      margin-bottom: 8px;
+    }
+
+    .description {
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.5;
+      min-height: 42px;
+      margin-bottom: 15px;
+    }
+
+    .price {
+      font-size: 22px;
+      font-weight: 800;
+      margin-bottom: 15px;
+    }
+
+    .buy-button {
+      width: 100%;
+      border: none;
+      padding: 13px;
+      border-radius: 10px;
+      background: var(--primary);
+      color: white;
+      font-size: 15px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: .2s;
+    }
+
+    .buy-button:hover {
+      background: var(--primary-dark);
+    }
+
+    /* RODAPÉ */
+
+    footer {
+      background: #111;
+      color: white;
+      padding: 45px 20px;
+    }
+
+    .footer-content {
+      max-width: 1200px;
+      margin: auto;
+      text-align: center;
+    }
+
+    .footer-content h3 {
+      margin-bottom: 10px;
+    }
+
+    .footer-content p {
+      color: #aaa;
+      font-size: 14px;
+    }
+
+    /* VAZIO */
+
+    .empty {
+      display: none;
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--muted);
+    }
+
+    /* RESPONSIVO */
+
+    @media (max-width: 1000px) {
+      .products {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    @media (max-width: 750px) {
+      .header-content {
+        flex-direction: column;
+      }
+
+      .search {
+        max-width: 100%;
+      }
+
+      .hero {
+        margin: 20px;
+        padding: 40px 25px;
+      }
+
+      .products {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 14px;
+      }
+
+      .product-info {
+        padding: 14px;
+      }
+
+      .product h3 {
+        font-size: 16px;
+      }
+
+      .price {
+        font-size: 19px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .products {
+        grid-template-columns: 1fr;
+      }
+
+      .hero {
+        margin: 15px;
+      }
+
+      .hero p {
+        font-size: 16px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- CABEÇALHO -->
+
+  <header>
+    <div class="header-content">
+
+      <a href="#" class="logo">
+        Minha Loja
+      </a>
+
+      <div class="search">
+        <input
+          type="text"
+          id="searchInput"
+          placeholder="🔎 Procurar produto..."
+          oninput="filtrarProdutos()"
+        >
+      </div>
+
+    </div>
+  </header>
+
+
+  <!-- DESTAQUE -->
+
+  <section class="hero">
+
+    <h1>
+      Encontre o produto que você procura.
+    </h1>
+
+    <p>
+      Confira nossa seleção de produtos e, quando encontrar o que deseja,
+      clique em comprar para continuar o pagamento em nossa plataforma externa.
+    </p>
+
+  </section>
+
+
+  <!-- CATEGORIAS -->
+
+  <div class="categories" id="categories"></div>
+
+
+  <!-- PRODUTOS -->
+
+  <main class="products-container">
+
+    <div class="section-title">
+
+      <h2>Produtos</h2>
+
+      <span class="products-count" id="productsCount"></span>
+
+    </div>
+
+    <div class="products" id="products"></div>
+
+    <div class="empty" id="empty">
+      <h3>Nenhum produto encontrado</h3>
+      <p>Tente pesquisar por outro nome ou categoria.</p>
+    </div>
+
+  </main>
+
+
+  <!-- RODAPÉ -->
+
+  <footer>
+
+    <div class="footer-content">
+
+      <h3>Minha Loja</h3>
+
+      <p>
+        Produtos selecionados para você.
+      </p>
+
+      <br>
+
+      <p>
+        © 2026 Minha Loja. Todos os direitos reservados.
+      </p>
+
+    </div>
+
+  </footer>
+
+
+  <script>
+
+    /*
+      ==========================================
+      CADASTRO DOS PRODUTOS
+      ==========================================
+
+      Para adicionar um produto, copie um dos
+      exemplos abaixo e altere as informações.
+
+      O campo "linkPagamento" é o endereço da
+      página EXTERNA onde o cliente fará o pagamento.
+    */
+
+    const produtos = [
+
+      {
+        nome: "Produto Premium",
+        preco: 97.90,
+        categoria: "Destaques",
+        descricao: "Descrição do seu produto. Explique aqui os principais benefícios.",
+        imagem: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=800&q=80",
+        linkPagamento: "https://seu-link-de-pagamento.com/produto-1"
+      },
+
+      {
+        nome: "Produto Especial",
+        preco: 149.90,
+        categoria: "Destaques",
+        descricao: "Um produto especial para seus clientes.",
+        imagem: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=800&q=80",
+        linkPagamento: "https://seu-link-de-pagamento.com/produto-2"
+      },
+
+      {
+        nome: "Produto Básico",
+        preco: 49.90,
+        categoria: "Ofertas",
+        descricao: "Uma ótima opção para quem procura qualidade e preço.",
+        imagem: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=800&q=80",
+        linkPagamento: "https://seu-link-de-pagamento.com/produto-3"
+      },
+
+      {
+        nome: "Produto Exclusivo",
+        preco: 199.90,
+        categoria: "Exclusivos",
+        descricao: "Uma opção exclusiva para seus clientes.",
+        imagem: "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=800&q=80",
+        linkPagamento: "https://seu-link-de-pagamento.com/produto-4"
+      }
+
+    ];
+
+
+    let categoriaAtual = "Todos";
+
+
+    /*
+      FORMATAÇÃO DO PREÇO
+    */
+
+    function formatarPreco(valor) {
+
+      return valor.toLocaleString("pt-BR", {
+        style: "currency",
+        currency: "BRL"
+      });
+
+    }
+
+
+    /*
+      MOSTRAR PRODUTOS
+    */
+
+    function mostrarProdutos(lista = produtos) {
+
+      const container = document.getElementById("products");
+      const empty = document.getElementById("empty");
+      const count = document.getElementById("productsCount");
+
+      container.innerHTML = "";
+
+      count.textContent =
+        `${lista.length} produto${lista.length !== 1 ? "s" : ""}`;
+
+      if (lista.length === 0) {
+
+        empty.style.display = "block";
+
+        return;
+
+      }
+
+      empty.style.display = "none";
+
+
+      lista.forEach(produto => {
+
+        const card = document.createElement("article");
+
+        card.className = "product";
+
+        card.innerHTML = `
+
+          <img
+            class="product-image"
+            src="${produto.imagem}"
+            alt="${produto.nome}"
+            loading="lazy"
+          >
+
+          <div class="product-info">
+
+            <div class="product-category">
+              ${produto.categoria}
+            </div>
+
+            <h3>
+              ${produto.nome}
+            </h3>
+
+            <p class="description">
+              ${produto.descricao}
+            </p>
+
+            <div class="price">
+              ${formatarPreco(produto.preco)}
+            </div>
+
+            <button
+              class="buy-button"
+              onclick="comprar('${produto.linkPagamento}')"
+            >
+              Comprar agora
+            </button>
+
+          </div>
+
+        `;
+
+        container.appendChild(card);
+
+      });
+
+    }
+
+
+    /*
+      CATEGORIAS
+    */
+
+    function criarCategorias() {
+
+      const container = document.getElementById("categories");
+
+      const categorias = [
+        "Todos",
+        ...new Set(produtos.map(produto => produto.categoria))
+      ];
+
+      container.innerHTML = "";
+
+      categorias.forEach(categoria => {
+
+        const button = document.createElement("button");
+
+        button.className =
+          "category" +
+          (categoria === "Todos" ? " active" : "");
+
+        button.textContent = categoria;
+
+        button.onclick = () => {
+
+          categoriaAtual = categoria;
+
+          document
+            .querySelectorAll(".category")
+            .forEach(btn => btn.classList.remove("active"));
+
+          button.classList.add("active");
+
+          filtrarProdutos();
+
+        };
+
+        container.appendChild(button);
+
+      });
+
+    }
+
+
+    /*
+      BUSCA + CATEGORIA
+    */
+
+    function filtrarProdutos() {
+
+      const busca =
+        document
+          .getElementById("searchInput")
+          .value
+          .toLowerCase()
+          .trim();
+
+
+      const filtrados = produtos.filter(produto => {
+
+        const correspondeCategoria =
+          categoriaAtual === "Todos" ||
+          produto.categoria === categoriaAtual;
+
+        const correspondeBusca =
+          produto.nome.toLowerCase().includes(busca) ||
+          produto.descricao.toLowerCase().includes(busca);
+
+        return correspondeCategoria && correspondeBusca;
+
+      });
+
+
+      mostrarProdutos(filtrados);
+
+    }
+
+
+    /*
+      BOTÃO DE COMPRA
+
+      IMPORTANTE:
+      O site NÃO processa pagamento.
+
+      Ele simplesmente abre o endereço
+      externo que você cadastrou.
+    */
+
+    function comprar(link) {
+
+      if (
+        !link ||
+        link.includes("seu-link-de-pagamento.com")
+      ) {
+
+        alert(
+          "Este produto ainda não possui um link de pagamento cadastrado."
+        );
+
+        return;
+
+      }
+
+      window.open(link, "_blank");
+
+    }
+
+
+    /*
+      INICIALIZAÇÃO
+    */
+
+    criarCategorias();
+    mostrarProdutos();
+
+  </script>
+
+</body>
+</html>
